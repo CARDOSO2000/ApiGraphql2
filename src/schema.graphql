@@ -1,0 +1,61 @@
+  type Usuario {
+    id: ID!
+    login: String!
+    senha: String!
+    inscricao: [Chat]
+    mensagens: [Mensagem]
+  }
+  type Mensagem {
+    id: ID!
+    mensagem: String!
+    timestamp: String!
+    usuario: Usuario!
+  }
+  type Chat {
+    categoria: Categorias!
+    mensagem: [Mensagem]
+    usuarios: [Usuario]
+    inscritos: Int
+  }
+  type Log {
+    operacao: String!
+    tipo: String!
+    hora: String!
+  }
+  type Query {
+    chat: [Chat]
+    usuarios: [Usuario]
+    mensagem: [Mensagem]
+    logs(inputUsuario: InputUsuario): [Log]
+  }
+
+  type Mutation {
+    criarUsuario(inputUsuario: InputUsuario): Usuario!
+    postarMensagem(inputMensagem: InputMensagem): Mensagem!
+  }
+
+  type Subscription {
+    inscreverChat(inscreverChat: InscreverUser!): Mensagem
+    logs(inputUsuario: InputUsuario): Log
+  }
+
+  input InputUsuario {
+    login: String,
+    senha: String
+  }
+
+  input InputMensagem { 
+    mensagem: String, 
+    login: String, 
+    categoria: Categorias
+  }
+
+  input InscreverUser {
+    categoria: Categorias,
+    login: String
+  }
+  enum Categorias {
+    GERAL
+    CINEMA
+    ESPORTES
+  }
